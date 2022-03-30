@@ -42,6 +42,16 @@ if debug:
 
 singlemen = deque([i for i in range(n)])
 
+
+def prefers(m_, m2_, w_):
+    # True if w prefers m over m2:
+    for pref in women[w_]:
+        if m2_ == pref:
+            return False
+        if m_ == pref:
+            return True
+
+
 # Run while there are single m
 while len(singlemen) > 0:
 
@@ -61,12 +71,15 @@ while len(singlemen) > 0:
         else:
             # w is already paired with someone else: m2
             m2 = result[w]
-            if women[w].index(m) < women[w].index(m2):
+
+            #if women[w].index(m) < women[w].index(m2):
+            if prefers(m, m2, w):
                 # If w prefers m over m2, pair them up and make m2 single again
                 result[w] = m
                 singlemen.popleft()
                 singlemen.append(m2)
                 break
+
 
 
 # Everyone is paired so print the result
